@@ -6,7 +6,6 @@ import java.io.*;
 import java.util.Arrays;
 public class Main {
   public double[] frequency = new double[26];
-  public double[] frequency2 = new double[26];
   double counter;
   char none = 0;
   int n = 0;
@@ -14,6 +13,7 @@ public class Main {
   String scans = "";
   String count = "";
   double A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
+  double wordCount;
   double dist;
 
   public String scan (File txt) {
@@ -30,7 +30,17 @@ public class Main {
     return scans;
   }
 
-  public void Freq(String sentence) {
+  public void Checker(){
+    System.out.println(wordCount);
+    for (double i: frequency){
+      System.out.print(i);  
+    }
+    System.out.print("\n");
+  }
+
+  public double[] Freq(String sentence) {
+    A=0;B=0;C=0;D=0;E=0;F=0;G=0;H=0;I=0;J=0;K=0;L=0;M=0;N=0;O=0;P=0;Q=0;R=0;S=0;T=0;U=0;V=0;W=0;X=0;Y=0;Z=0;
+    wordCount = 0;
     Scanner sc = new Scanner(sentence);
     while(sc.hasNext() && n != sentence.length()){
       char x = sentence.charAt(n);
@@ -115,8 +125,7 @@ public class Main {
         n++;
     }
     n = 0;
-    double wordCount;
-        wordCount = A + B + C + D + E + F + G + H + I + J + K + L + M + N + O + P + Q + R + S + T + U + V + W + X + Y + Z;
+        wordCount = (A + B + C + D + E + F + G + H + I + J + K + L + M + N + O + P + Q + R + S + T + U + V + W + X + Y + Z);
         frequency[0] = (Math.round((A/wordCount) * 100000d) / 100000d);
         frequency[1] = (Math.round((B/wordCount) * 100000d) / 100000d);
         frequency[2] = (Math.round((C/wordCount) * 100000d) / 100000d);
@@ -172,18 +181,18 @@ public class Main {
         System.out.print("Z: " + frequency[25]);
         System.out.print("\n");
        // */
-      A=0;B=0;C=0;D=0;E=0;F=0;G=0;H=0;I=0;J=0;K=0;L=0;M=0;N=0;O=0;P=0;Q=0;R=0;S=0;T=0;U=0;V=0;W=0;X=0;Y=0;Z=0;
+       A=0;B=0;C=0;D=0;E=0;F=0;G=0;H=0;I=0;J=0;K=0;L=0;M=0;N=0;O=0;P=0;Q=0;R=0;S=0;T=0;U=0;V=0;W=0;X=0;Y=0;Z=0;
+       wordCount = 0;
+      sc.close();
+      return frequency;
   }
   
-  public double distance(File n1, File n2){
-    this.Freq(scan(n1));
-    System.arraycopy(frequency, 0, frequency2, 0, 25);
-    this.Freq(scan(n2));
-    for(int i = 0; i < 25; i++){
-      //if (frequency[i].equal)
-      counter += Math.pow((frequency[i] - frequency2[i]), 2);
-      System.out.println("freq1: " + frequency[i]);
-      System.out.println("freq2: " + frequency2[i]);
+  public double distance(double[] f1, double[] f2){
+    for(int i = 0; i < 26; i++){
+      counter += Math.pow((f1[i] - f2[i]), 2);
+      System.out.println(i);
+      System.out.println("freq1: " + f1[i]);
+      System.out.println("freq2: " + f2[i]);
       System.out.println(counter);
     }
     dist = Math.sqrt(counter);
