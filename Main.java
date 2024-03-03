@@ -15,6 +15,25 @@ public class Main {
   double A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
   double wordCount;
   double dist;
+  public static final String alpha = "abcdefghijklmnopqrstuvwxyz";
+  
+  public String rotate(String plaintext, int shift) {
+    String result = "";
+        for (int i = 0; i < plaintext.length(); i++) {
+            if (Character.isUpperCase(plaintext.charAt(i))) {
+                char ch = (char)(((int)plaintext.charAt(i) + shift - 65) % 26 + 65);
+                result += ch;
+            } 
+            if (Character.isLowerCase(plaintext.charAt(i))) {
+                char ch = (char)(((int)plaintext.charAt(i) + shift - 97) % 26 + 97);
+                result += ch;
+            }
+            if (Character.isWhitespace(plaintext.charAt(i))) {
+              result += " ";
+            }
+        }
+        return result.toString();
+    }
 
   public String scan (File txt) {
     try {
@@ -188,8 +207,10 @@ public class Main {
   }
   
   public double distance(double[] f1, double[] f2){
-    for(int i = 0; i < 26; i++){
-      counter += Math.pow((f1[i] - f2[i]), 2);
+    System.out.println(f1);
+    System.out.println(f2);
+    for(int i = 0; i < f1.length; i++){
+      counter += Math.pow((f2[i] - f1[i]), 2);
       System.out.println(i);
       System.out.println("freq1: " + f1[i]);
       System.out.println("freq2: " + f2[i]);
