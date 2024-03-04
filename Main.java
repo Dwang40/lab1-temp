@@ -5,17 +5,19 @@ import java.lang.Math;
 import java.io.*;
 import java.util.Arrays;
 public class Main {
-  public double[] frequency = new double[26];
-  double counter;
+  int key;
+  public double[] frequency2 = new double[26];
   char none = 0;
   int n = 0;
+  double counter;
   String y = "";
   String scans = "";
   String count = "";
   double A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
   double wordCount;
-  double dist;
   public static final String alpha = "abcdefghijklmnopqrstuvwxyz";
+  File alice = new File ("alice.txt");
+  File othello = new File ("othello.txt");
   
   public String rotate(String plaintext, int shift) {
     String result = "";
@@ -50,8 +52,8 @@ public class Main {
   }
 
   public double[] Freq(String sentence) {
-    A=0;B=0;C=0;D=0;E=0;F=0;G=0;H=0;I=0;J=0;K=0;L=0;M=0;N=0;O=0;P=0;Q=0;R=0;S=0;T=0;U=0;V=0;W=0;X=0;Y=0;Z=0;
-    wordCount = 0;
+    double[] frequency = new double[26];
+    scans = "";
     Scanner sc = new Scanner(sentence);
     while(sc.hasNext() && n != sentence.length()){
       char x = sentence.charAt(n);
@@ -163,7 +165,7 @@ public class Main {
         frequency[23] = (Math.round((X/wordCount) * 100000d) / 100000d);
         frequency[24] = (Math.round((Y/wordCount) * 100000d) / 100000d);
         frequency[25] = (Math.round((Z/wordCount) * 100000d) / 100000d);
-       // /*
+        ///*
         System.out.print("A: " + frequency[0] + ", ");
         System.out.print("B: " + frequency[1] + ", ");
         System.out.print("C: " + frequency[2] + ", ");        
@@ -191,7 +193,7 @@ public class Main {
         System.out.print("Y: " + frequency[24] + ", ");
         System.out.print("Z: " + frequency[25]);
         System.out.print("\n");
-       // */
+        //*/
        A=0;B=0;C=0;D=0;E=0;F=0;G=0;H=0;I=0;J=0;K=0;L=0;M=0;N=0;O=0;P=0;Q=0;R=0;S=0;T=0;U=0;V=0;W=0;X=0;Y=0;Z=0;
        wordCount = 0;
       sc.close();
@@ -199,18 +201,76 @@ public class Main {
   }
   
   public double distance(double[] f1, double[] f2){
-    System.out.println(f1);
-    System.out.println(f2);
-    for(int i = 0; i < f1.length; i++){
-      counter += Math.pow((f2[i] - f1[i]), 2);
-      System.out.println(i);
-      System.out.println("freq1: " + f1[i]);
-      System.out.println("freq2: " + f2[i]);
-      System.out.println(counter);
+    double dista;
+    for(int i = 0; i < 25; i++){
+      counter += Math.pow(f1[i] - f2[i], 2);
     }
-    dist = Math.sqrt(counter);
-    System.out.println(dist + "\n");
-    return dist;
+    dista = Math.sqrt(counter);
+    counter = 0;
+    System.out.println(dista);
+    return dista;
+  }
+
+  public String atbash(String Text) {
+    StringBuilder sb = new StringBuilder();
+    String str = Text.toUpperCase();
+    boolean b = false;
+    
+    for (int i =  0; i < str.length(); i++) {
+        char ch = str.charAt(i);
+        if (ch >= 'A' && ch <= 'Z') {
+            char cipher = (char) ('Z' - (ch - 'A'));
+            sb.append(cipher);
+            b = true;
+        } else if (Character.isDigit(ch)) {
+            sb.append(ch);
+            b = true;
+        }
+        if(ch == ' ') {
+          sb.append(' ');
+        }
+    }
+    return sb.toString();
+}
+
+  public String decode(String text){
+    String altxt = text;
+    double curdist = 1.0;
+    double bashdist = 1.0;
+    double[] altfreq;
+    double[] altfrequ;
+    String solved;
+    int key = 0;
+    int bashkey = 0;
+    double[] normalFreq = Freq(scan(alice));
+    for(int i = 0; i < 52; i++){
+      altxt = rotate(text, i);
+      altfreq = Freq(altxt);
+      double newdist = distance(altfreq, normalFreq);
+      if (newdist < curdist) {
+        curdist = newdist;
+        key = i;
+      }
+      if (i >= 26){
+        altxt = atbash(rotate(text, i-26));
+        altfrequ = Freq(altxt);
+        double bashdista = distance(altfrequ, normalFreq);
+        if (bashdista < bashdist){
+          bashdist = bashdista;
+          bashkey = i - 26;
+        }
+      }
+    }
+    if(curdist < bashdist){
+      solved = rotate(text, key);
+      System.out.println(solved);
+      return solved;
+    }
+    else {
+      solved = atbash(rotate(text, bashkey));
+      System.out.println(solved);
+      return solved;
+    }
   }
     public static void main(String []args) throws FileNotFoundException {
   }
