@@ -16,8 +16,8 @@ public class Driver {
     //a.Freq(a.scan(alice));
     //a.distance(a.Freq(a.scan(alice)), a.Freq(a.scan(othello)));
     //a.distance(othello, alice);
-    //a.rotate("May the force be with you", 0);
-    //a.atbash(" NVUEHBUBVUI OUVEBUWEBVWOW VEBEVVBEWO UBVWEBVWUE");
-    a.decode("Ugi nzc bspec fc kynz ism");
+    //a.rotate("May the force be with you", 1);
+    //a.atbash(alphabet);
+    a.decode("Drp Kyv Wfitv Sv Nzky Pfl");
     }
 }

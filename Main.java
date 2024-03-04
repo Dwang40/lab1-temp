@@ -5,6 +5,7 @@ import java.lang.Math;
 import java.io.*;
 import java.util.Arrays;
 public class Main {
+  File alicea = new File("text/alice.txt");
   int key;
   public double[] frequency2 = new double[26];
   char none = 0;
@@ -19,18 +20,18 @@ public class Main {
   File alice = new File ("alice.txt");
   File othello = new File ("othello.txt");
   
-  public String rotate(String plaintext, int shift) {
+  public String rotate(String text, int shift) {
     String result = "";
-        for (int i = 0; i < plaintext.length(); i++) {
-            if (Character.isUpperCase(plaintext.charAt(i))) {
-                char ch = (char)(((int)plaintext.charAt(i) + shift - 65) % 26 + 65);
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isUpperCase(text.charAt(i))) {
+                char ch = (char)(((int)text.charAt(i) + shift - 65) % 26 + 65);
                 result += ch;
             } 
-            if (Character.isLowerCase(plaintext.charAt(i))) {
-                char ch = (char)(((int)plaintext.charAt(i) + shift - 97) % 26 + 97);
+            if (Character.isLowerCase(text.charAt(i))) {
+                char ch = (char)(((int)text.charAt(i) + shift - 97) % 26 + 97);
                 result += ch;
             }
-            if (Character.isWhitespace(plaintext.charAt(i))) {
+            if (Character.isWhitespace(text.charAt(i))) {
               result += " ";
             }
         }
@@ -242,7 +243,7 @@ public class Main {
     String solved;
     int key = 0;
     int bashkey = 0;
-    double[] normalFreq = Freq(scan(alice));
+    double[] normalFreq = Freq(scan(alicea));
     for(int i = 0; i < 52; i++){
       altxt = rotate(text, i);
       altfreq = Freq(altxt);
@@ -250,7 +251,7 @@ public class Main {
       if (newdist < curdist) {
         curdist = newdist;
         key = i;
-      }
+      } 
       if (i >= 26){
         altxt = atbash(rotate(text, i-26));
         altfrequ = Freq(altxt);
@@ -271,7 +272,20 @@ public class Main {
       System.out.println(solved);
       return solved;
     }
-  }
+  
+}
     public static void main(String []args) throws FileNotFoundException {
+      Main a = new Main();
+      File tmp = new File(args[1]);
+      if (args[0].equals("Freq")){
+        a.Freq(a.scan(tmp));
+      }
+      if (args[0].equals("distance")){
+        File tmp2 = new File(args[2]);
+        a.distance(a.Freq(a.scan(tmp)), a.Freq(a.scan(tmp2)));
+      }
+      if (args[0].equals("decode")){
+        a.decode(a.scan(tmp));
+      }
   }
 }
